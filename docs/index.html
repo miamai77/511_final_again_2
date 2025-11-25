@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Mia Maines">
+<meta name="dcterms.date" content="2025-11-24">
+
+<title>Estimating Right-Wing Authoritarianism Values for United States Counties – GEO511 Final Project - Mia Maines</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GEO511 Final Project - Mia Maines</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Estimating Right-Wing Authoritarianism Values for United States Counties</h1>
+<p class="subtitle lead">Using R Regression Modeling</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Mia Maines </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 24, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The Far Right’s broad resurgence is probably one of the most noteworthy trends in the 21st century’s global political landscape, and additionally politicians representing this shift to the right have gained prominence in not only the US, but in states such as Brazil, India, Russia, Turkey, Hungary, Italy, and Japan. It remains increasingly clear that this trend may be semi-permanent, with over a decade of increasing support for such movements among individuals of all walks of life. “Right wing authoritarianism” is a term not only describing a political identity but a set of beliefs and morals potentially bridging the gap between political science and psychology. A “right wing authoritarianism” scale was developed by psychologist Bob Altemeyer in 1981, describing a set of tendencies that might make one more predispositioned to supporting a right-wing authoritarian leader. These tendencies include high levels of submission to established authorities, willingness to engage in retaliatory actions to protect such authorities, and high degrees of conventionalism and traditionalism, whatever that may be in one’s culture. I will attempt to map such values in the United States, and the county-by-county spatial variance between them. I will take state-by-state or metro-by-metro survey data corresponding with right-wing authoritarian tendencies as defined by Altemeyer, and use a regression model to predict what socioeconomic traits could suggest right-wing authoritarianism in geographic regions.</p>
+<p>Perhaps class is a primary predictor of RWA, or urban-rural location, or perhaps Pentecostalism. Modeling RWA by county will allow me to see the factors that correlate the most.</p>
+</section>
+<section id="materials-and-methods" class="level1">
+<h1>Materials and methods</h1>
+<p>Firstly, we examine existing survey data pertaining to right-wing authoritarianism in the United States. There are two primary surveyors I’ve found to have information pertaining to RWA-adjacent values: Gallup and the Public Religion Research Institute. I take state-by-state and metro-by-metro information on RWA from these sources, and model them from Census Data pertaining to socioeconomic factors, as well as religion data from each county.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(htmlwidgets)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(widgetframe)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ipumsr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tigris)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="loading-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-data">Loading data</h2>
+<p>IPUMS is an organization that collects and processes survey and census data from around the world.</p>
+<p>Their <strong>National Historical Geographic Information System</strong> (NHGIS) takes historic US census data and cleans it to make it easily GIS-joinable.</p>
+<p>Upon the creation of an account, one has free access to all their data. However, after ample research, I didn’t find a way to directly data-download from their website into the R workspace. Thus, I had to do it manually.</p>
+<p>I did some initial cleaning of the data in excel. If this is not permissible in the final project, I will fix this.</p>
+<p>I began by downloading information on race, education, income, poverty, age, and urban/rural status for all counties in the United States. I used the 2023 American Community survey for all topics except urban/rural status, for which only 2020 was available. Connecticut recently changed its counties into “planning regions” so there is discontinuity from 2021 onward that will hinder joining to religion data later on. So for Connecticut, I used the 2021 ACS.</p>
+<p>The following tables were downloaded: - B01002: Median Age by Sex (2019-2023 ACS) - B03002: Hispanic or Latino Origin by Race (2019-2023 ACS) - B15003: Educational Attainment for the Population 25 and Older (2019-2023 ACS) - B19013: Median Household Income in the Past 12 Months (2019-2023 ACS) - C17002: Ratio of Income to Poverty Level in the Past 12 Months (2019-2023 ACS) - P2: Urban and Rural (2020 Decennial Census)</p>
+<p>Because each sheet had the same number of columns (all counties were organized in the same way), they could easily just be copy-and-pasted into one giant sheet with no problems.</p>
+<p>Because raw numbers were given in the spreadsheet for each demographic, I had to convert them all into proportions of the total population. Final column values represent: - Total median age - Percentage of total population that is White, Black, Asian, Native American, Pacific Islander, Other Race, Multiracial, and Hispanic - Percentage of those 25 and older who have: received no schooling, been educated up to middle school, high school but no diploma, high school diploma, associate’s degree, bachelor’s degree, post-bachelor’s degree - Percentage of households with incomes: Below 15K, 15-30K, 30-60K, 60-100K, 100-150K, 150-200K, and Over 200K - Percentage of people with incomes: below half of the poverty line, and 50-100% of the poverty line - Percentage of the population in urbanized areas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>socioec <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/511_socioeconomic.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(socioec))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 2%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">GISJOIN</th>
+<th style="text-align: left;">YEAR</th>
+<th style="text-align: left;">STUSAB</th>
+<th style="text-align: left;">STATE</th>
+<th style="text-align: right;">STATEA</th>
+<th style="text-align: right;">COUNTYA</th>
+<th style="text-align: left;">GEO_ID</th>
+<th style="text-align: right;">TL_GEO_ID</th>
+<th style="text-align: left;">NAME_E</th>
+<th style="text-align: right;">Median_Age</th>
+<th style="text-align: right;">Total_POP</th>
+<th style="text-align: right;">Pct_White</th>
+<th style="text-align: right;">Pct_Black</th>
+<th style="text-align: right;">Pct_Indigenous</th>
+<th style="text-align: right;">Pct_Asian</th>
+<th style="text-align: right;">Pct_PI</th>
+<th style="text-align: right;">Pct_OtherRace</th>
+<th style="text-align: right;">Pct_MixedRace</th>
+<th style="text-align: right;">Pct_Hispanic</th>
+<th style="text-align: right;">Total_Over25</th>
+<th style="text-align: right;">Pct_NoSchool</th>
+<th style="text-align: right;">Pct_JuniorSchool</th>
+<th style="text-align: right;">Pct_HS_NoDiploma</th>
+<th style="text-align: right;">Pct_HS</th>
+<th style="text-align: right;">Pct_SomeCollege</th>
+<th style="text-align: right;">Pct_Bachelor</th>
+<th style="text-align: right;">Pct_PostBachelor</th>
+<th style="text-align: right;">Total_Households</th>
+<th style="text-align: right;">Pct_Under15K</th>
+<th style="text-align: right;">Pct_under30k</th>
+<th style="text-align: right;">Pct_under60k</th>
+<th style="text-align: right;">Pct_under100k</th>
+<th style="text-align: right;">Pct_under150k</th>
+<th style="text-align: right;">Pct_under200k</th>
+<th style="text-align: right;">Pct_over200k</th>
+<th style="text-align: right;">Pct_halfPoverty</th>
+<th style="text-align: right;">Pct_Poverty</th>
+<th style="text-align: right;">URBAN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">G0100010</td>
+<td style="text-align: left;">2019-2023</td>
+<td style="text-align: left;">AL</td>
+<td style="text-align: left;">Alabama</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">0500000US01001</td>
+<td style="text-align: right;">1001</td>
+<td style="text-align: left;">Autauga County, Alabama</td>
+<td style="text-align: right;">39.2</td>
+<td style="text-align: right;">59285</td>
+<td style="text-align: right;">71.68255</td>
+<td style="text-align: right;">19.952770</td>
+<td style="text-align: right;">0.0708442</td>
+<td style="text-align: right;">1.0103736</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.3677153</td>
+<td style="text-align: right;">3.225099</td>
+<td style="text-align: right;">3.690647</td>
+<td style="text-align: right;">40767</td>
+<td style="text-align: right;">0.6598474</td>
+<td style="text-align: right;">0.8143842</td>
+<td style="text-align: right;">8.246866</td>
+<td style="text-align: right;">32.67594</td>
+<td style="text-align: right;">29.32028</td>
+<td style="text-align: right;">15.988422</td>
+<td style="text-align: right;">12.294258</td>
+<td style="text-align: right;">22523</td>
+<td style="text-align: right;">6.690938</td>
+<td style="text-align: right;">12.289660</td>
+<td style="text-align: right;">23.60698</td>
+<td style="text-align: right;">25.84469</td>
+<td style="text-align: right;">15.27328</td>
+<td style="text-align: right;">7.885273</td>
+<td style="text-align: right;">8.409182</td>
+<td style="text-align: right;">5.395788</td>
+<td style="text-align: right;">5.288519</td>
+<td style="text-align: right;">59.323187</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">G0100030</td>
+<td style="text-align: left;">2019-2023</td>
+<td style="text-align: left;">AL</td>
+<td style="text-align: left;">Alabama</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">0500000US01003</td>
+<td style="text-align: right;">1003</td>
+<td style="text-align: left;">Baldwin County, Alabama</td>
+<td style="text-align: right;">43.7</td>
+<td style="text-align: right;">239945</td>
+<td style="text-align: right;">81.41324</td>
+<td style="text-align: right;">7.939736</td>
+<td style="text-align: right;">0.2533914</td>
+<td style="text-align: right;">0.9414658</td>
+<td style="text-align: right;">0.0325074</td>
+<td style="text-align: right;">0.4005084</td>
+<td style="text-align: right;">3.437454</td>
+<td style="text-align: right;">5.581696</td>
+<td style="text-align: right;">171988</td>
+<td style="text-align: right;">0.8268019</td>
+<td style="text-align: right;">1.2314813</td>
+<td style="text-align: right;">6.210317</td>
+<td style="text-align: right;">27.54204</td>
+<td style="text-align: right;">31.39173</td>
+<td style="text-align: right;">20.552597</td>
+<td style="text-align: right;">12.245040</td>
+<td style="text-align: right;">94642</td>
+<td style="text-align: right;">7.968978</td>
+<td style="text-align: right;">9.932165</td>
+<td style="text-align: right;">23.30361</td>
+<td style="text-align: right;">22.84926</td>
+<td style="text-align: right;">18.29949</td>
+<td style="text-align: right;">7.963695</td>
+<td style="text-align: right;">9.682805</td>
+<td style="text-align: right;">4.209862</td>
+<td style="text-align: right;">6.304837</td>
+<td style="text-align: right;">62.413545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">G0100050</td>
+<td style="text-align: left;">2019-2023</td>
+<td style="text-align: left;">AL</td>
+<td style="text-align: left;">Alabama</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">0500000US01005</td>
+<td style="text-align: right;">1005</td>
+<td style="text-align: left;">Barbour County, Alabama</td>
+<td style="text-align: right;">40.7</td>
+<td style="text-align: right;">24757</td>
+<td style="text-align: right;">43.65230</td>
+<td style="text-align: right;">46.899867</td>
+<td style="text-align: right;">0.1373349</td>
+<td style="text-align: right;">0.5493396</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.2037000</td>
+<td style="text-align: right;">1.538959</td>
+<td style="text-align: right;">6.018500</td>
+<td style="text-align: right;">17628</td>
+<td style="text-align: right;">1.2139778</td>
+<td style="text-align: right;">5.7181756</td>
+<td style="text-align: right;">15.254141</td>
+<td style="text-align: right;">37.60495</td>
+<td style="text-align: right;">28.74404</td>
+<td style="text-align: right;">6.688223</td>
+<td style="text-align: right;">4.776492</td>
+<td style="text-align: right;">9080</td>
+<td style="text-align: right;">17.070485</td>
+<td style="text-align: right;">22.290749</td>
+<td style="text-align: right;">22.48899</td>
+<td style="text-align: right;">18.37004</td>
+<td style="text-align: right;">12.63216</td>
+<td style="text-align: right;">3.303965</td>
+<td style="text-align: right;">3.843612</td>
+<td style="text-align: right;">12.263279</td>
+<td style="text-align: right;">9.658199</td>
+<td style="text-align: right;">34.080006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">G0100070</td>
+<td style="text-align: left;">2019-2023</td>
+<td style="text-align: left;">AL</td>
+<td style="text-align: left;">Alabama</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">0500000US01007</td>
+<td style="text-align: right;">1007</td>
+<td style="text-align: left;">Bibb County, Alabama</td>
+<td style="text-align: right;">41.3</td>
+<td style="text-align: right;">22152</td>
+<td style="text-align: right;">73.73149</td>
+<td style="text-align: right;">20.697905</td>
+<td style="text-align: right;">0.1083424</td>
+<td style="text-align: right;">0.2302275</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.0902853</td>
+<td style="text-align: right;">1.783135</td>
+<td style="text-align: right;">3.358613</td>
+<td style="text-align: right;">15931</td>
+<td style="text-align: right;">1.6885318</td>
+<td style="text-align: right;">4.8145126</td>
+<td style="text-align: right;">13.156738</td>
+<td style="text-align: right;">41.12736</td>
+<td style="text-align: right;">27.74465</td>
+<td style="text-align: right;">7.036595</td>
+<td style="text-align: right;">4.431611</td>
+<td style="text-align: right;">7571</td>
+<td style="text-align: right;">14.344208</td>
+<td style="text-align: right;">16.589618</td>
+<td style="text-align: right;">24.42214</td>
+<td style="text-align: right;">23.29943</td>
+<td style="text-align: right;">13.20829</td>
+<td style="text-align: right;">4.939902</td>
+<td style="text-align: right;">3.196407</td>
+<td style="text-align: right;">11.527530</td>
+<td style="text-align: right;">8.984055</td>
+<td style="text-align: right;">0.000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">G0100090</td>
+<td style="text-align: left;">2019-2023</td>
+<td style="text-align: left;">AL</td>
+<td style="text-align: left;">Alabama</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">0500000US01009</td>
+<td style="text-align: right;">1009</td>
+<td style="text-align: left;">Blount County, Alabama</td>
+<td style="text-align: right;">40.9</td>
+<td style="text-align: right;">59292</td>
+<td style="text-align: right;">84.95919</td>
+<td style="text-align: right;">1.259866</td>
+<td style="text-align: right;">0.1011941</td>
+<td style="text-align: right;">0.0860150</td>
+<td style="text-align: right;">0.1484180</td>
+<td style="text-align: right;">0.2260001</td>
+<td style="text-align: right;">3.164002</td>
+<td style="text-align: right;">10.055319</td>
+<td style="text-align: right;">40991</td>
+<td style="text-align: right;">2.3883291</td>
+<td style="text-align: right;">3.9496475</td>
+<td style="text-align: right;">10.965822</td>
+<td style="text-align: right;">35.61757</td>
+<td style="text-align: right;">31.49960</td>
+<td style="text-align: right;">9.972921</td>
+<td style="text-align: right;">5.606109</td>
+<td style="text-align: right;">21977</td>
+<td style="text-align: right;">11.502935</td>
+<td style="text-align: right;">13.718888</td>
+<td style="text-align: right;">24.00237</td>
+<td style="text-align: right;">22.26419</td>
+<td style="text-align: right;">16.28521</td>
+<td style="text-align: right;">6.716112</td>
+<td style="text-align: right;">5.510306</td>
+<td style="text-align: right;">5.178556</td>
+<td style="text-align: right;">8.916731</td>
+<td style="text-align: right;">9.510603</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">G0100110</td>
+<td style="text-align: left;">2019-2023</td>
+<td style="text-align: left;">AL</td>
+<td style="text-align: left;">Alabama</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">0500000US01011</td>
+<td style="text-align: right;">1011</td>
+<td style="text-align: left;">Bullock County, Alabama</td>
+<td style="text-align: right;">40.4</td>
+<td style="text-align: right;">10157</td>
+<td style="text-align: right;">21.09875</td>
+<td style="text-align: right;">71.221818</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.4627351</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.535887</td>
+<td style="text-align: right;">5.680811</td>
+<td style="text-align: right;">7378</td>
+<td style="text-align: right;">2.7243155</td>
+<td style="text-align: right;">6.7091353</td>
+<td style="text-align: right;">16.522093</td>
+<td style="text-align: right;">40.58010</td>
+<td style="text-align: right;">24.46462</td>
+<td style="text-align: right;">6.682028</td>
+<td style="text-align: right;">2.317701</td>
+<td style="text-align: right;">3453</td>
+<td style="text-align: right;">22.965537</td>
+<td style="text-align: right;">18.795251</td>
+<td style="text-align: right;">27.13582</td>
+<td style="text-align: right;">16.65219</td>
+<td style="text-align: right;">11.75789</td>
+<td style="text-align: right;">1.013611</td>
+<td style="text-align: right;">1.679699</td>
+<td style="text-align: right;">9.630116</td>
+<td style="text-align: right;">16.021011</td>
+<td style="text-align: right;">0.000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The US Religion Census is an organization that tracks religious affiliation across the country. They perform an exhaustive census of every religious organization in the United States to get detailed affiliation data.</p>
+<p>There is an API available through OSF in order to download this data, but as of writing the first draft, it appears to be broken. I cannot seem to be able to create an OSF account currently. I do plan on using the API in my final project, but as of now we will just have to make do.</p>
+<p>Since the religion census lists affiliation with every single religious organization in the country, the file is very large. I cannot load it directly into the data folder, so I created an abridged version in excel with only the sects I intended on analyzing. These include:</p>
+<ul>
+<li>Total Adherence Rate of All Religious Organizations (TOT)</li>
+<li>Evangelical Protestant (EVAN)</li>
+<li>Black Protestant (BPRT)</li>
+<li>Mainline Protestant (MPRT)</li>
+<li>Catholic (CATH)</li>
+<li>Orthodox Christian (ORTH)</li>
+<li>Mormonism/Latter Day Saints (LDS)</li>
+<li>Judaism (CJUD - Conservative, IJUD - Independent, OJUD - Orthodox, RJUD - Reconstructionist, RFRM - Reform)</li>
+<li>Islam (MSLM)</li>
+<li>Hinduism (HINT)</li>
+<li>Buddhism (MAHBUD - Mahayana, THBUD - Theravada, VAJBUD - Vajarayana)</li>
+</ul>
+<p>The Religion Census finds total adherence rates for Christian denominations (e.g.&nbsp;Evangelical Protestant is not a single organization but rather many with similar characteristics)</p>
+<p>For smaller religions (Mormonism, Judaism, Islam, Hinduism, Buddhism), I had to manually search through the hundreds of congregations to find these specific groups. There are separate columns for Jewish and Buddhist denominations, but I am combining them, as they are quite small religions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>religion2020 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/religion2020.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>religion2020[<span class="fu">is.na</span>(religion2020)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>religion2020 <span class="ot">&lt;-</span> religion2020 <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TOTJUDRATE_2020 =</span> CJUDRATE_2020 <span class="sc">+</span> IJUDRATE_2020 <span class="sc">+</span> OJUDRATE_2020 <span class="sc">+</span> RJUDRATE_2020 <span class="sc">+</span> RFRMRATE_2020, <span class="at">TOTBUDRATE_2020 =</span> MAHBUDRATE_2020 <span class="sc">+</span> THBUDRATE_2020 <span class="sc">+</span> VAJBUDRATE_2020)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(religion2020))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">FIPS</th>
+<th style="text-align: left;">COUNAM</th>
+<th style="text-align: left;">STABBREV</th>
+<th style="text-align: right;">TOTRATE_2020</th>
+<th style="text-align: right;">EVANRATE_2020</th>
+<th style="text-align: right;">BPRTRATE_2020</th>
+<th style="text-align: right;">MPRTRATE_2020</th>
+<th style="text-align: right;">CATHRATE_2020</th>
+<th style="text-align: right;">ORTHRATE_2020</th>
+<th style="text-align: right;">LDSRATE_2020</th>
+<th style="text-align: right;">CJUDRATE_2020</th>
+<th style="text-align: right;">IJUDRATE_2020</th>
+<th style="text-align: right;">OJUDRATE_2020</th>
+<th style="text-align: right;">RJUDRATE_2020</th>
+<th style="text-align: right;">RFRMRATE_2020</th>
+<th style="text-align: right;">MSLMRATE_2020</th>
+<th style="text-align: right;">HINTRATE_2020</th>
+<th style="text-align: right;">MAHBUDRATE_2020</th>
+<th style="text-align: right;">THBUDRATE_2020</th>
+<th style="text-align: right;">VAJBUDRATE_2020</th>
+<th style="text-align: right;">TOTJUDRATE_2020</th>
+<th style="text-align: right;">TOTBUDRATE_2020</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">48301</td>
+<td style="text-align: left;">Loving County</td>
+<td style="text-align: left;">TX</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15005</td>
+<td style="text-align: left;">Kalawao County</td>
+<td style="text-align: left;">HI</td>
+<td style="text-align: right;">43.90</td>
+<td style="text-align: right;">18.29</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.22</td>
+<td style="text-align: right;">24.39</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">48269</td>
+<td style="text-align: left;">King County</td>
+<td style="text-align: left;">TX</td>
+<td style="text-align: right;">452.45</td>
+<td style="text-align: right;">452.45</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">48261</td>
+<td style="text-align: left;">Kenedy County</td>
+<td style="text-align: left;">TX</td>
+<td style="text-align: right;">63.14</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">63.14</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">31117</td>
+<td style="text-align: left;">McPherson County</td>
+<td style="text-align: left;">NE</td>
+<td style="text-align: right;">33.59</td>
+<td style="text-align: right;">11.53</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">22.06</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">31009</td>
+<td style="text-align: left;">Blaine County</td>
+<td style="text-align: left;">NE</td>
+<td style="text-align: right;">58.70</td>
+<td style="text-align: right;">48.49</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10.21</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>I also process the religion data by taking NA adherence rate values and converting them to 0. In these cases, it means that there is a negligent amount of congregations of a given sect in a given county, and thus there are not a significant number of adherents.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>total_demographic <span class="ot">&lt;-</span> <span class="fu">left_join</span>(socioec, religion2020, <span class="at">by=</span><span class="fu">join_by</span>(TL_GEO_ID<span class="sc">==</span>FIPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I then join both of these dataframes together to create a single, conjoined dataframe. I use FIPS codes as the join key, present in both dataframes.</p>
+<p>Then, I take a counties dataframe using census bureau TIGER files, in order to obtain geographic boundaries for counties. This should make plotting easier.</p>
+<p>So, now I have my demographic baseline data. My next step is to gather survey data from Pew and the PRRI, and predict right wing authoritarianism by county based on these variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(demog_geom, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">fill=</span>EVANRATE_2020)) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">125</span>, <span class="sc">-</span><span class="dv">65</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">23</span>, <span class="dv">50</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">"white"</span>, <span class="at">high=</span><span class="st">"red"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">80</span>), <span class="at">oob =</span> scales<span class="sc">::</span>squish) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Evangelical Protestant Adherence Rate by County"</span>, <span class="at">fill=</span><span class="st">"Adherents per 1000 pop."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="1152"></p>
+<figcaption>Plot of Evangelical Protestant Population</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(demog_geom, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">fill=</span>LDSRATE_2020)) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">125</span>, <span class="sc">-</span><span class="dv">65</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">23</span>, <span class="dv">50</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">"white"</span>, <span class="at">high=</span><span class="st">"purple"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">80</span>), <span class="at">oob =</span> scales<span class="sc">::</span>squish) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Latter Day Saints Adherence Rate by County"</span>, <span class="at">fill=</span><span class="st">"Adherents per 1000 pop."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="1152"></p>
+<figcaption>Plot of Mormon Population</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(demog_geom, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">fill=</span>BPRTRATE_2020)) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">125</span>, <span class="sc">-</span><span class="dv">65</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">23</span>, <span class="dv">50</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">"white"</span>, <span class="at">high=</span><span class="st">"blue"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>), <span class="at">oob =</span> scales<span class="sc">::</span>squish) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Black Protestant Adherence Rate by County"</span>, <span class="at">fill=</span><span class="st">"Adherents per 1000 pop."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="1152"></p>
+<figcaption>Plot of Black Protestant Population</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="loading-in-poll-data" class="level1">
+<h1>Loading In Poll Data</h1>
+</section>
+<section id="predicting-state-level-rwa-using-caret" class="level1">
+<h1>Predicting State-Level RWA Using Caret</h1>
+</section>
+<section id="modeling-rwa-on-the-county-level" class="level1">
+<h1>Modeling RWA on the County Level</h1>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>[~200 words]</p>
+<p>Tables and figures (maps and other graphics) are carefully planned to convey the results of your analysis. Intense exploration and evidence of many trials and failures. The author looked at the data in many different ways before coming to the final presentation of the data.</p>
+<p>Show tables, plots, etc. and describe them.</p>
+<section id="dygraphs-example" class="level3">
+<h3 class="anchored" data-anchor-id="dygraphs-example">Dygraphs Example</h3>
+</section>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions</h1>
+<p>[~200 words]</p>
+<p>Clear summary adequately describing the results and putting them in context. Discussion of further questions and ways to continue investigation.</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>All sources are cited in a consistent manner</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
